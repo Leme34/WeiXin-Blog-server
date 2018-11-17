@@ -10,6 +10,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequestMapping("blog")
 public class BlogController {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private BlogService blogService;
 
@@ -36,10 +39,9 @@ public class BlogController {
     }
 
     @ApiOperation(value="保存博客", notes="保存博客的接口")
-    //TODO authentication.name为空
-//    @PreAuthorize("authentication.name.equals(#username)") //发请求的用户是否当前认证(登录)的用户
+    @PreAuthorize("authentication.name.equals(#username)") //发请求的用户是否当前认证(登录)的用户
     @PostMapping("/{username}/blogs/edit")
-    public ResponseEntity saveBlog(@PathVariable("username")String username,
+    public ResponseEntity saveBlog(@PathVariable("username")String username,  //用于@PreAuthorize认证
                                    @RequestBody BlogDto blogDto){
         System.out.println("小程序上传的对象="+blogDto);
         if (StringUtils.isBlank(blogDto.getTitle())){

@@ -100,8 +100,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .exceptionHandling()
-//                .accessDeniedPage("/accessDenied")  // 权限被拒绝就重定向到 403 页面
                 .accessDeniedHandler(blogAccessDeniedHandler) // 由自定义AccessDeniedHandler处理权限被拒绝异常
+//                .accessDeniedPage("/accessDenied")  // blogAccessDeniedHandler处理后重定向到 403 页面
 
                 .and()
 

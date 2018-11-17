@@ -24,7 +24,7 @@ public class BlogAccessDeniedHandler implements AccessDeniedHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     *  权限被拒绝时调用
+     *  权限被拒绝时调用,例如：方法上的@PreAuthorize拒绝的时候
      * @param accessDeniedException
      */
     @Override
