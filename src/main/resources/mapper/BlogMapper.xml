@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.mapper.BlogMapper">
+  <resultMap id="BaseResultMap" type="com.lee.pojo.Blog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="comment_size" jdbcType="INTEGER" property="commentSize" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="read_size" jdbcType="INTEGER" property="readSize" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="vote_size" jdbcType="INTEGER" property="voteSize" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="image_list" jdbcType="LONGVARCHAR" property="imageList" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="html_content" jdbcType="LONGVARCHAR" property="htmlContent" />
+  </resultMap>
+</mapper>
