@@ -2,7 +2,6 @@ package com.lee.service.impl;
 
 import com.google.gson.Gson;
 import com.lee.dto.BlogDto;
-import com.lee.mapper.BlogMapper;
 import com.lee.mapper.BlogMapperCustom;
 import com.lee.pojo.Blog;
 import com.lee.service.BlogService;
@@ -48,4 +47,28 @@ public class BlogServiceImpl implements BlogService {
         }
         return blogDto;
     }
+
+    @Override
+    public List<BlogVo> queryBlogsByUsername(String username) {
+        return blogMapper.queryBlogByUsername(username);
+    }
+
+    @Override
+    public Blog queryBlogById(Long blogId) {
+        return blogMapper.selectByPrimaryKey(blogId);
+    }
+
+    @Override
+    public void updateBlog(Blog blog) {
+        blogMapper.updateByPrimaryKeySelective(blog);
+    }
+
+    @Override
+    public void increaseReadSize(Long blogId) {
+        Blog blog = blogMapper.selectByPrimaryKey(blogId);
+        blog.setReadSize(blog.getReadSize()+1);
+        blogMapper.updateByPrimaryKeySelective(blog);
+    }
+
+
 }

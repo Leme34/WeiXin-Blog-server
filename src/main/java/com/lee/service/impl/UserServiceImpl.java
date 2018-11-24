@@ -1,6 +1,5 @@
 package com.lee.service.impl;
 
-import com.lee.mapper.UserMapper;
 import com.lee.mapper.UserMapperCustom;
 import com.lee.pojo.User;
 import com.lee.service.UserService;
@@ -20,7 +19,34 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //认证逻辑
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        System.out.println("loadUserByUsername username=" + username);
         User result = userMapper.getUserByUsername(username);
         return result;
+    }
+
+    @Override
+    public User queryUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userMapper.insertSelective(user);
+    }
+
+    @Override
+    public boolean emailIsRegisted(String email) {
+        User user = new User();
+        user.setEmail(email);
+        User result = userMapper.selectOne(user);
+        return result == null ? false : true;
+    }
+
+    @Override
+    public void updateUser(String username,User user) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username",username);
+        userMapper.updateByExampleSelective(user,example);
     }
 }

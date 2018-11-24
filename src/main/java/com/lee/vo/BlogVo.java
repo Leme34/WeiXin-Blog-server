@@ -28,7 +28,6 @@ public class BlogVo {
 
     //分类名称
     private String category;
-
     //博主
     private String userName;
     //头像

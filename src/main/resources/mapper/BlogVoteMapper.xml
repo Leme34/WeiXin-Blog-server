@@ -6,6 +6,6 @@
       WARNING - @mbg.generated
     -->
     <result column="blog_id" jdbcType="BIGINT" property="blogId" />
-    <result column="vote_id" jdbcType="BIGINT" property="voteId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
 </mapper>

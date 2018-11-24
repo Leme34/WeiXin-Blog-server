@@ -19,4 +19,9 @@ public interface BlogMapperCustom extends MyMapper<Blog> {
      */
     Integer saveBlog(Blog blog);
 
+    /**
+     * 查询用户主页的博客列表
+     */
+    List<BlogVo> queryBlogByUsername(String username);
+
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,13 +24,12 @@ public class User implements UserDetails {
 
     private String email;
 
-    private String name;
-
     private String password;
 
     private String username;
 
     //关联查出的角色
+    @Transient
     private String role;
 
     @Override
@@ -37,7 +37,7 @@ public class User implements UserDetails {
         // 返回<SimpleGrantedAuthority>
         List<SimpleGrantedAuthority> simpleAuthorities = new ArrayList<>();
         simpleAuthorities.add(new SimpleGrantedAuthority(role));
-        System.out.println("取得此用户权限："+simpleAuthorities);
+//        System.out.println("取得此用户权限："+simpleAuthorities);
         return simpleAuthorities;
     }
 

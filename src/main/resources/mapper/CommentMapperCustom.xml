@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.mapper.CommentMapperCustom">
+    <resultMap id="BaseResultMap" type="com.lee.pojo.Comment">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="pid" jdbcType="BIGINT" property="pid"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="reply_user_id" jdbcType="BIGINT" property="replyUserId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="reply_username" jdbcType="VARCHAR" property="replyUserName"/>
+        <result column="user_avatar" jdbcType="VARCHAR" property="userAvatar"/>
+        <result column="is_voted" jdbcType="BOOLEAN" property="isVoted"/>
+        <result column="vote_num" jdbcType="INTEGER" property="voteNum"/>
+        <!--用于暂存传入的userId传入子查询中-->
+        <result column="current_user_id" jdbcType="BIGINT" property="currentUserId"/>
+        <!-- 自关联级联查询user信息、子评论 -->
+        <!-- 这里要注意的是column对应的是comment表中的外键，而且需是表字段名 -->
+        <collection property="commentList" ofType="Comment"
+                    select="querySubCommentsByPid" column="userId=current_user_id,id=id">
+        </collection>
+    </resultMap>
+
+    <!-- 级联查询此博客所有评论(父子评论是1对多关系)
+        传入多参数时不能使用parameterType
+     -->
+    <select id="queryAllComments" resultMap="BaseResultMap">
+        SELECT
+            c.id,
+            c.content,
+            c.create_time,
+            c.pid,
+            c.user_id,
+            c.reply_user_id,
+            u1.username AS user_name,
+            u1.avatar AS user_avatar,
+            u2.username AS reply_username,
+            IF(cv.user_id IS NOT NULL,TRUE,FALSE) AS is_voted,  #若此用户没有给此评论点赞则is_voted=0否则=1
+            (SELECT COUNT(1) FROM comment_vote GROUP BY comment_id HAVING comment_id=c.id) AS vote_num,
+            #{userId} AS current_user_id  #用于暂存传入的userId传入子查询中
+        FROM
+            `comment` c
+            LEFT JOIN `user` u1 ON c.user_id = u1.id
+            LEFT JOIN `user` u2 ON c.reply_user_id = u2.id
+            LEFT JOIN comment_vote cv ON c.id = cv.comment_id AND cv.user_id = #{userId}  #若为null则此用户没有给此评论点赞
+        WHERE
+            c.blog_id = #{blogId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- collection中递归调用的 根据pid=id查询此以id作为pid的子评论
+        父查询中已经限定blogId此处无需再写
+     -->
+    <select id="querySubCommentsByPid" resultMap="BaseResultMap">
+        SELECT
+            c.id,
+            c.content,
+            c.create_time,
+            c.pid,
+            c.user_id,
+            c.reply_user_id,
+            u1.username AS user_name,
+            u1.avatar AS user_avatar,
+            u2.username AS reply_username,
+            IF(cv.user_id IS NOT NULL,TRUE,FALSE) AS is_voted,  #若此用户没有给此评论点赞则is_voted=0否则=1
+            (SELECT COUNT(1) FROM comment_vote GROUP BY comment_id HAVING comment_id=c.id) AS vote_num,
+            #{userId} AS current_user_id  #用于暂存传入的userId传入子查询中
+        FROM
+          `comment` c
+        LEFT JOIN `user` u1 ON c.user_id = u1.id
+        LEFT JOIN `user` u2 ON c.reply_user_id = u2.id
+        LEFT JOIN comment_vote cv ON c.id = cv.comment_id AND cv.user_id = #{userId}  #若为null则此用户没有给此评论点赞
+        WHERE
+            c.pid = #{id}
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

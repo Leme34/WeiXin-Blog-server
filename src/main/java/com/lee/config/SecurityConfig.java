@@ -118,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //                .addFilterBefore(xxxFiler, UsernamePasswordAuthenticationFilter.class)   //把此过滤器加到UsernamePasswordAuthenticationFilter之前
                 .authorizeRequests()
-                .antMatchers("/doLogin","/blog/list", "/session/invalid").permitAll() // 都可以访问
+                .antMatchers("/doLogin","/blog/list", "/session/invalid","/register").permitAll() // 都可以访问
                 .antMatchers("/users/**").hasAnyRole("USER","ADMIN");  //需要角色才能访问,框架会转换成ROLE_USER和ROLE_ADMIN进行验证
 //                .antMatchers(HttpMethod.POST,"/users/**").hasAnyRole("USER","ADMIN")  //POST请求需要角色才能访问
 //                .anyRequest().authenticated()  //剩下没有配置的url都需要登录认证才能访问

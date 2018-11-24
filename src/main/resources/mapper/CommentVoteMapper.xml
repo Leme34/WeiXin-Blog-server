@@ -9,4 +9,6 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="comment_id" jdbcType="BIGINT" property="commentId" />
   </resultMap>
+
+
 </mapper>

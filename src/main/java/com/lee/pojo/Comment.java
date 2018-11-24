@@ -1,8 +1,13 @@
 package com.lee.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
+@Data
 public class Comment {
     @Id
     private Long id;
@@ -10,6 +15,7 @@ public class Comment {
     private String content;
 
     @Column(name = "create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     private Long pid;
@@ -23,101 +29,20 @@ public class Comment {
     @Column(name = "reply_user_id")
     private Long replyUserId;
 
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
+    //级联查询的字段,是非数据库映射字段,插入操作时会忽略
+    @Transient
+    private String userName; //发评论者用户名
+    @Transient
+    private String userAvatar; //发评论者头像
+    @Transient
+    private String replyUserName; //被回复者用户名
+    @Transient
+    private List<Comment> commentList;  //此评论的所有子评论
+    @Transient
+    private boolean isVoted;  //此用户是否有给此评论点赞
+    @Transient
+    private String currentUserId;  //用于暂存传入的userId传入子查询中
+    @Transient
+    private Integer voteNum;  //此评论被点赞总数
 
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * @param content
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    /**
-     * @return create_time
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * @param createTime
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return pid
-     */
-    public Long getPid() {
-        return pid;
-    }
-
-    /**
-     * @param pid
-     */
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
-    /**
-     * @return user_id
-     */
-    public Long getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userId
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * @return blog_id
-     */
-    public Long getBlogId() {
-        return blogId;
-    }
-
-    /**
-     * @param blogId
-     */
-    public void setBlogId(Long blogId) {
-        this.blogId = blogId;
-    }
-
-    /**
-     * @return reply_user_id
-     */
-    public Long getReplyUserId() {
-        return replyUserId;
-    }
-
-    /**
-     * @param replyUserId
-     */
-    public void setReplyUserId(Long replyUserId) {
-        this.replyUserId = replyUserId;
-    }
 }
