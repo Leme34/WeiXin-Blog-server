@@ -14,6 +14,11 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
+    public void saveCategory(Category category) {
+        categoryMapper.insert(category);
+    }
+
+    @Override
     public List<Category> getCategoryByUserId(Long userId) {
         Category category = new Category();
         category.setUserId(userId);

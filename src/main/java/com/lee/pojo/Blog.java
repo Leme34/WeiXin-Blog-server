@@ -12,9 +12,6 @@ public class Blog {
     @Id
     private Long id;
 
-    @Column(name = "blog_file_id")
-    private String blogFileId;
-
     @Column(name = "comment_size")
     private Integer commentSize;
 
@@ -22,8 +19,8 @@ public class Blog {
     @Column(name = "create_time")
     private Date createTime;
 
-    @Column(name = "read_size")
-    private Integer readSize;
+    @Column(name = "mark_size")
+    private Integer markSize;
 
     private String summary;
 

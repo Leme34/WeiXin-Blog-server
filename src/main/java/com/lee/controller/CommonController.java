@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,13 +27,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CommonController {
     private final Integer DEFAULT_USER_ROLE = 2;
 
-    //保存当前请求验证码的线程副本
     private ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private MailServiceImpl mailService;
-    @Autowired
-    private PasswordEncoder encoder;
     @Autowired
     private UserService userService;
 
@@ -51,8 +51,11 @@ public class CommonController {
         if (captcha == null || !captcha.equals(geneCaptcha)) {
             return ResponseEntity.ok(new BlogResponseResult(201, "验证码错误~"));
         }
+        //解决与SecurityConfig中的passwordEncoder循环依赖的问题
+        WebApplicationContext applicationContext = ContextLoader.getCurrentWebApplicationContext();
+        PasswordEncoder passwordEncoder = (PasswordEncoder) applicationContext.getBean("passwordEncoder");
         //密码编码
-        String encodePwd = encoder.encode(user.getPassword());
+        String encodePwd = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePwd);
         //加上默认角色权限
         user.setUserRole(DEFAULT_USER_ROLE);

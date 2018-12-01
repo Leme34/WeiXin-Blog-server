@@ -47,11 +47,7 @@ public class VoteController {
     @ApiOperation(value = "查询此用户是否有为此博客点赞")
     @GetMapping("/blog")
     public ResponseEntity queryIsVoteBlog(Long userId, Long blogId) {
-        //已点赞
-        if (voteService.isVoteBlog(userId, blogId)) {
-            return ResponseEntity.ok(new BlogResponseResult(200, true));
-        }
-        return ResponseEntity.ok(new BlogResponseResult(200, false));
+        return ResponseEntity.ok(new BlogResponseResult(200, voteService.isVoteBlog(userId, blogId)));
     }
 
     /**

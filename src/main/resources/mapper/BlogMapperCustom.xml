@@ -6,7 +6,7 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="comment_size" jdbcType="INTEGER" property="commentSize"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="read_size" jdbcType="INTEGER" property="readSize"/>
+        <result column="mark_size" jdbcType="INTEGER" property="markSize"/>
         <result column="summary" jdbcType="VARCHAR" property="summary"/>
         <result column="tags" jdbcType="VARCHAR" property="tags"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
@@ -70,4 +70,55 @@
         </trim>
     </insert>
 
+    <select id="queryMarkBlogByUserId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT
+            blog.id AS id,
+            blog.comment_size,
+            blog.create_time,
+            blog.mark_size,
+            blog.summary,
+            blog.tags,
+            blog.title,
+            blog.vote_size,
+            blog.content,
+            blog.html_content,
+            blog.image_list,
+            blog.category_id,
+            blog.user_id AS ownner_id,
+            ( SELECT username FROM `user` WHERE id = ownner_id ) AS username,
+            ( SELECT avatar FROM `user` WHERE id = ownner_id ) AS avatar,
+            ( SELECT NAME FROM category WHERE id = category_id ) AS category
+        FROM
+            blog_mark bm
+            LEFT JOIN blog ON blog.id = blog_id
+            LEFT JOIN category ON category.id = category_id
+        WHERE
+            bm.user_id = #{userId}
+        ORDER BY bm.create_time DESC
+    </select>
+
+    <select id="queryBlogVoById" parameterType="Long" resultMap="BaseResultMap">
+        SELECT
+            blog.id,
+            comment_size,
+            create_time,
+            mark_size,
+            summary,
+            tags,
+            title,
+            vote_size,
+            content,
+            html_content,
+            image_list,
+            u.username,
+            u.avatar,
+            c.NAME AS category
+        FROM
+            blog
+            LEFT JOIN `user` u ON u.id = user_id
+            LEFT JOIN category c ON c.id = category_id
+        WHERE
+            blog.id = #{blogId};
+    </select>
+    
 </mapper>

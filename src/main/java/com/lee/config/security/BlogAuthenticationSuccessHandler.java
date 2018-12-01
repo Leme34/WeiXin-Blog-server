@@ -1,4 +1,4 @@
-package com.lee.config;
+package com.lee.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lee.vo.BlogResponseResult;
@@ -23,9 +23,7 @@ public class BlogAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
 
     @Autowired
     private ObjectMapper objectMapper;
-
     private Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * security登录成功时会被调用
      * authentication: 登录后的用户信息对象
@@ -34,6 +32,7 @@ public class BlogAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         String username = authentication.getName();
         logger.info(username + "登录成功");
+
         //返回用户信息对象principal给小程序
         response.setContentType("application/json;charset=UTF-8");
         ResponseEntity<BlogResponseResult> responseEntity = ResponseEntity.ok(new BlogResponseResult(200, authentication.getPrincipal()));

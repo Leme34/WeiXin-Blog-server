@@ -13,11 +13,16 @@
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <!--关联查询字段-->
         <result column="role" jdbcType="VARCHAR" property="role"></result>
+        <result column="fans_counts" jdbcType="INTEGER" property="fansCounts"></result>
+        <result column="follow_counts" jdbcType="INTEGER" property="followCounts"></result>
     </resultMap>
 
     <select id="getUserByUsername" parameterType="String" resultMap="BaseResultMap">
         SELECT
-            u.*,r.`name` AS role
+            u.*,
+            r.`name` AS role,
+            ( SELECT COUNT( 1 ) FROM follower GROUP BY user_id HAVING user_id = u.id ) AS fans_counts,
+            ( SELECT COUNT( 1 ) FROM follower GROUP BY follower_id HAVING follower_id = u.id ) AS follow_counts
         FROM
             `user` u
             LEFT JOIN role r ON u.user_role = r.id

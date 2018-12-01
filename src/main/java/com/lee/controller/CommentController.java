@@ -53,7 +53,7 @@ public class CommentController {
     public ResponseEntity getAllComments(Long blogId,
                                          @RequestParam(value = "userId", required = false, defaultValue = "-1")
                                                  Long userId) { //若没有上传userId(未登录)则传-1,使查出的Comment中isVoted字段为false
-        System.out.println("blogId="+blogId+",userId="+userId);
+//        System.out.println("blogId="+blogId+",userId="+userId);
         List<Comment> commentList = commentService.queryAllComments(userId, blogId);
         return ResponseEntity.ok(new BlogResponseResult(200, commentList));
     }

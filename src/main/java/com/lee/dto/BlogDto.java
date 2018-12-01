@@ -7,17 +7,17 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 数据传输对象
+ * 数据传输对象,与blog只有imageList的类型不同
  */
 @Data
 public class BlogDto {
     private Long id;
 
+    private Integer markSize;
+
     private Integer commentSize;
 
     private Date createTime;
-
-    private Integer readSize;
 
     private String summary;
 

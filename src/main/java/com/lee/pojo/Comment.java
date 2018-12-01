@@ -18,7 +18,7 @@ public class Comment {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
-    private Long pid;
+    private Long pid;  //一级子评论和二级子评论的pid都=顶层父评论的id
 
     @Column(name = "user_id")
     private Long userId;
@@ -27,7 +27,7 @@ public class Comment {
     private Long blogId;
 
     @Column(name = "reply_user_id")
-    private Long replyUserId;
+    private Long replyUserId;  //二级子评论被回复者id,一级子评论为0
 
     //级联查询的字段,是非数据库映射字段,插入操作时会忽略
     @Transient

@@ -24,4 +24,14 @@ public interface BlogMapperCustom extends MyMapper<Blog> {
      */
     List<BlogVo> queryBlogByUsername(String username);
 
+    /**
+     * 查询此用户收藏的博客
+     */
+    List<BlogVo> queryMarkBlogByUserId(Long userId);
+
+    /**
+     * 查询此博客详细
+     */
+    BlogVo queryBlogVoById(Long blogId);
+
 }

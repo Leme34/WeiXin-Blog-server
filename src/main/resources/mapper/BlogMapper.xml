@@ -8,7 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="comment_size" jdbcType="INTEGER" property="commentSize" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="read_size" jdbcType="INTEGER" property="readSize" />
+    <result column="mark_size" jdbcType="INTEGER" property="markSize" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="tags" jdbcType="VARCHAR" property="tags" />
     <result column="title" jdbcType="VARCHAR" property="title" />

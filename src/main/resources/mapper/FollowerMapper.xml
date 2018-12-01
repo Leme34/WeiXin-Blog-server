@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.mapper.FollowerMapper">
+    <resultMap id="BaseResultMap" type="com.lee.pojo.Follower">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="follower_id" jdbcType="BIGINT" property="followerId"/>
+        <!-- 关联查询字段 -->
+        <result column="username" jdbcType="VARCHAR" property="username"></result>
+        <result column="follower" jdbcType="VARCHAR" property="follower"></result>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"></result>
+    </resultMap>
+
+    <!--查询该用户关注的所有用户-->
+    <select id="getFollowListByFollowerId" parameterType="Long" resultMap="BaseResultMap">
+    SELECT
+        user_id,
+        follower_id,
+        u1.username AS username,
+        u1.avatar AS avatar,
+        u2.username AS follower
+    FROM
+        follower
+        LEFT JOIN `user` u1 ON u1.id = user_id
+        LEFT JOIN `user` u2 ON u2.id = follower_id
+    WHERE
+        follower_id = #{followerId};
+  </select>
+
+    <!--查询该用户的粉丝-->
+    <select id="getFollowersByUserId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT
+            user_id,  #当前用户id
+            u2.username AS username, #当前用户名
+            follower_id,  #粉丝id
+            u1.username AS follower,   #粉丝姓名
+            u1.avatar AS avatar  #粉丝头像
+        FROM
+            follower
+            LEFT JOIN `user` u1 ON u1.id = follower_id
+            LEFT JOIN `user` u2 ON u2.id = user_id
+        WHERE
+            user_id = #{userId};
+    </select>
+
+</mapper>

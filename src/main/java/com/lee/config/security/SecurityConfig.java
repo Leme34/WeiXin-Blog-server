@@ -1,10 +1,8 @@
-package com.lee.config;
+package com.lee.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,13 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
-import java.nio.file.AccessDeniedException;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) //启用@prePostEnabled注解
@@ -119,7 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(xxxFiler, UsernamePasswordAuthenticationFilter.class)   //把此过滤器加到UsernamePasswordAuthenticationFilter之前
                 .authorizeRequests()
                 .antMatchers("/doLogin","/blog/list", "/session/invalid","/register").permitAll() // 都可以访问
-                .antMatchers("/users/**").hasAnyRole("USER","ADMIN");  //需要角色才能访问,框架会转换成ROLE_USER和ROLE_ADMIN进行验证
+                .antMatchers("/users/**").hasAnyRole("USER","USER");  //需要角色才能访问,框架会转换成ROLE_USER和ROLE_ADMIN进行验证
 //                .antMatchers(HttpMethod.POST,"/users/**").hasAnyRole("USER","ADMIN")  //POST请求需要角色才能访问
 //                .anyRequest().authenticated()  //剩下没有配置的url都需要登录认证才能访问
 

@@ -1,4 +1,4 @@
-package com.lee.config;
+package com.lee.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lee.vo.BlogResponseResult;

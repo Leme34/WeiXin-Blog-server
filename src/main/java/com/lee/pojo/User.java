@@ -1,5 +1,6 @@
 package com.lee.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Data
 public class User implements UserDetails {
+    private static final long serialVersionUID = 8816925479008869807L;
+
     @Id
     private Long id;
 
@@ -24,6 +27,7 @@ public class User implements UserDetails {
 
     private String email;
 
+    @JsonIgnore   //不传输密码
     private String password;
 
     private String username;
@@ -31,6 +35,11 @@ public class User implements UserDetails {
     //关联查出的角色
     @Transient
     private String role;
+    @Transient
+    private Integer fansCounts;  //粉丝数量
+    @Transient
+    private Integer followCounts; //关注的用户数量
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

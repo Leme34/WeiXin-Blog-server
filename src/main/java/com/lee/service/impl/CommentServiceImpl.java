@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> queryAllComments(Long userId,Long blogId) {
         List<Comment> commentList = commentMapperCustom.queryAllComments(userId,blogId);
-        logger.info("queryAllComments:"+commentList);
+//        logger.info("queryAllComments:"+commentList);
         return commentList;
     }
 

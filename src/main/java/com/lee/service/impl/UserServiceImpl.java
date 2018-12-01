@@ -19,8 +19,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //认证逻辑
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        System.out.println("loadUserByUsername username=" + username);
+//        System.out.println("loadUserByUsername userName=" + userName);
         User result = userMapper.getUserByUsername(username);
+        //若没有此用户,抛出异常 但security规定不能返回null
+        if(result==null){
+            throw new UsernameNotFoundException("用户名或密码错误~");
+        }
         return result;
     }
 

@@ -16,7 +16,7 @@ public class BlogVo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
-    private Integer readSize;
+    private Integer markSize;
 
     private String summary;
 

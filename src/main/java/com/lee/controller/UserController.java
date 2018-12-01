@@ -1,9 +1,11 @@
 package com.lee.controller;
 
 import com.lee.pojo.Category;
+import com.lee.pojo.Follower;
 import com.lee.pojo.User;
 import com.lee.service.BlogService;
 import com.lee.service.CategoryService;
+import com.lee.service.FollowerService;
 import com.lee.service.UserService;
 import com.lee.vo.BlogResponseResult;
 import com.lee.vo.BlogVo;
@@ -28,6 +30,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private FollowerService followerService;
+
 
     /**
      * 查询用户信息
@@ -45,8 +50,8 @@ public class UserController {
     @PreAuthorize("authentication.name.equals(#username)")  //只有本人可以操作
     @ApiOperation(value="更新用户信息", notes="请求的bean中null的属性不会被修改")
     @PostMapping("/{username}")
-    public ResponseEntity userBlogs(@PathVariable("username")String username,User user){
-//        System.out.println("上传的user="+user);
+    public ResponseEntity updateUser(@PathVariable("username")String username,User user){
+        System.out.println("上传的user="+user);
         //更新当前用户信息
         userService.updateUser(username,user);
         return ResponseEntity.ok(new BlogResponseResult(200,"更新成功~"));
@@ -63,15 +68,85 @@ public class UserController {
     }
 
     /**
+     * 新增该用户的分类
+     */
+    @ApiOperation(value="查询该用户创建的所有分类", notes="查询该用户创建的所有分类")
+    @PostMapping("/category")
+    public ResponseEntity saveUserCategory(Category category){
+        categoryService.saveCategory(category);
+        return ResponseEntity.ok(new BlogResponseResult(200,"保存成功~"));
+    }
+
+    /**
      * 查询该用户创建的所有分类
      */
     @ApiOperation(value="查询该用户创建的所有分类", notes="查询该用户创建的所有分类")
     @GetMapping("/category")
-    public ResponseEntity userBlogs(Long userId){
+    public ResponseEntity getUserCategory(Long userId){
         List<Category> categoryList = categoryService.getCategoryByUserId(userId);
         System.out.println("查询出的categoryList="+categoryList);
         return ResponseEntity.ok(new BlogResponseResult(200,categoryList));
     }
 
+    /**
+     * 查出该用户发表的所有博客
+     */
+    @ApiOperation(value="用户主页博客列表", notes="用户主页博客列表")
+    @GetMapping("/{username}/markBlogs")
+    public ResponseEntity userMarkBlogs(@PathVariable("username")String username){
+        List<BlogVo> blogVoList = blogService.queryBlogsByUsername(username);
+        return ResponseEntity.ok(new BlogResponseResult(200,blogVoList));
+    }
+
+
+    /**
+     * 关注用户
+     */
+    @ApiOperation(value="关注用户")
+    @PostMapping("/follow")
+    public ResponseEntity userFollowers(Long userId,Long followerId){
+        followerService.followerUser(userId, followerId);
+        return ResponseEntity.ok(new BlogResponseResult(200,"关注成功~"));
+    }
+
+    /**
+     * 取消关注用户
+     */
+    @ApiOperation(value="取消关注用户")
+    @DeleteMapping("/followers")
+    public ResponseEntity cancelFollower(Long userId,Long followerId){
+        followerService.cancelFollowerUser(userId, followerId);
+        return ResponseEntity.ok(new BlogResponseResult(200,"取消关注成功~"));
+    }
+
+
+    /**
+     * 查询是否已关注此用户
+     */
+    @ApiOperation(value="查询该用户关注的所有用户")
+    @GetMapping("/isFollower")
+    public ResponseEntity isFollower(Long userId,Long followerId){
+        return ResponseEntity.ok(new BlogResponseResult(200,followerService.isFollower(userId,followerId)));
+    }
+
+    /**
+     * 查询该用户关注的所有用户
+     */
+    @ApiOperation(value="查询该用户关注的所有用户")
+    @GetMapping("/follow")
+    public ResponseEntity userFollow(Long followerId){
+        List<Follower> followList = followerService.getFollowList(followerId);
+        return ResponseEntity.ok(new BlogResponseResult(200,followList));
+    }
+
+    /**
+     * 查询该用户的粉丝
+     */
+    @ApiOperation(value="查询该用户的粉丝")
+    @GetMapping("/followers")
+    public ResponseEntity userFollowers(Long userId){
+        List<Follower> followers = followerService.getFollowersByUserId(userId);
+        return ResponseEntity.ok(new BlogResponseResult(200,followers));
+    }
 
 }
