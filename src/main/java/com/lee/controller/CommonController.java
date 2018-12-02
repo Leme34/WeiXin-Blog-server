@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ContextLoader;
@@ -52,10 +53,9 @@ public class CommonController {
             return ResponseEntity.ok(new BlogResponseResult(201, "验证码错误~"));
         }
         //解决与SecurityConfig中的passwordEncoder循环依赖的问题
-        WebApplicationContext applicationContext = ContextLoader.getCurrentWebApplicationContext();
-        PasswordEncoder passwordEncoder = (PasswordEncoder) applicationContext.getBean("passwordEncoder");
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
         //密码编码
-        String encodePwd = passwordEncoder.encode(user.getPassword());
+        String encodePwd = encoder.encode(user.getPassword());
         user.setPassword(encodePwd);
         //加上默认角色权限
         user.setUserRole(DEFAULT_USER_ROLE);

@@ -1,9 +1,6 @@
 package com.lee.service;
 
-import com.lee.vo.BlogVo;
-
 import java.util.List;
-import java.util.Set;
 
 public interface SearchService {
 
@@ -16,6 +13,6 @@ public interface SearchService {
     /**
      * 查询redis中的前num名热搜词
      */
-    Set getHotSearchRecords(Integer num);
+    List getHotSearchRecords(Integer num);
 
 }

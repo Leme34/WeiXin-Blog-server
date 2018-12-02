@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -32,13 +33,13 @@ public class SearchController {
     @ApiOperation(value = "返回前num名热搜索词列表")
     @GetMapping("/hotKey")
     public ResponseEntity getHotSearchRecords(Integer num) {
-        Set hotSearchRecords = searchService.getHotSearchRecords(num);
+        List hotSearchRecords = searchService.getHotSearchRecords(num);
         System.out.println("hotSearchRecords=" + hotSearchRecords);
         return ResponseEntity.ok(new BlogResponseResult(200, new BlogResponseResult(200, hotSearchRecords)));
     }
 
     /**
-     * 搜索博客
+     * 搜索博客,使用redis缓存
      */
     @ApiOperation(value = "根据关键词搜索博客")
     @GetMapping("/blog")
