@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 /**
  * elasticSearch博客索引类
  * 一个 Elasticsearch 集群可以包含多个 索引(数据库),相应的每个索引可以包含多个 类型(表) 。这些不同的类型存储着多个 文档(一条记录),每个文档又有多个 属性(字段) 。
- * text 数据类型不能用来排序和聚合，可分词！keyword 类型字段用来检索过滤、排序和聚合，不可分词！
+ * text 数据类型不能用来排序和聚合，可分词！keyword 类型字段用来检索过滤、排序和聚合，不可分词！ 不指定text类型则type是keyword
  * index=true (默认值)字段可以搜索,否则不能用于搜索
  * store=ture (默认为false) 搜索结果中包含此字段,否则不包含
  */
