@@ -103,9 +103,9 @@
 
         <!--&lt;!&ndash; spring-session &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.session</groupId>-->
-            <!--<artifactId>spring-session</artifactId>-->
-            <!--<version>1.3.4.RELEASE</version>-->
+        <!--<groupId>org.springframework.session</groupId>-->
+        <!--<artifactId>spring-session</artifactId>-->
+        <!--<version>1.3.4.RELEASE</version>-->
         <!--</dependency>-->
         <!-- spring session的依赖 -->
         <dependency>
@@ -135,6 +135,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <!-- websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <!--热部署-->

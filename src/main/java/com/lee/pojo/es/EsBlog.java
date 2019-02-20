@@ -11,10 +11,16 @@ import java.text.SimpleDateFormat;
 
 /**
  * elasticSearch博客索引类
+ *
+ * 索引(index) = 数据库(databases)
+ * 类型(type) = 表(table)
+ * 文档(document) = 行(row)
  * 一个 Elasticsearch 集群可以包含多个 索引(数据库),相应的每个索引可以包含多个 类型(表) 。这些不同的类型存储着多个 文档(一条记录),每个文档又有多个 属性(字段) 。
- * text 数据类型不能用来排序和聚合，可分词！keyword 类型字段用来检索过滤、排序和聚合，不可分词！
- * index=true (默认值)字段可以搜索,否则不能用于搜索
- * store=ture (默认为false) 搜索结果中包含此字段,否则不包含
+ *
+ * 1、text 数据类型不能用来排序和聚合，可分词！keyword 类型字段用来检索过滤、排序和聚合，不可分词！
+ * 2、index=true (默认值)字段需要被搜索,否则不能用于搜索
+ * 3、store=true (默认为false) 不管设置为true or false, es都将为我们存储这些field，意义：是否在 _source 之外在独立存储一份
+ * 详见https://blog.csdn.net/helllochun/article/details/52136954
  */
 @Data
 @Document(indexName = "wx_blog", type = "wx_blog")  //指定索引和类型
@@ -27,14 +33,14 @@ public class EsBlog implements Serializable {
     @Field(type = FieldType.Long)
     private Long blogId; // Blog 实体的 id
 
-    //text 数据类型不能用来排序和聚合，可分词！
-    @Field(type = FieldType.text)
+    //text 数据类型不能用来排序和聚合，可分词！  analyzer：存入时的分词器  searchAnalyzer：搜索时的分词器
+    @Field(index= true,type = FieldType.text,analyzer="ik_max_word",searchAnalyzer="ik_max_word")
     private String title;
-    @Field(type = FieldType.text)
+    @Field(index= true,type = FieldType.text,analyzer="ik_max_word",searchAnalyzer="ik_max_word")
     private String summary;
-    @Field(type = FieldType.text)
+    @Field(index= true,type = FieldType.text,analyzer="ik_max_word",searchAnalyzer="ik_max_word")
     private String content;
-    @Field(type = FieldType.text)
+    @Field(index= true,type = FieldType.text,analyzer="ik_max_word",searchAnalyzer="ik_max_word")
     private String category;
 
 

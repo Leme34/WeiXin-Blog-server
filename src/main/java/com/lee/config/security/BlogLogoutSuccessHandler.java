@@ -1,6 +1,7 @@
 package com.lee.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lee.pojo.User;
 import com.lee.vo.BlogResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class BlogLogoutSuccessHandler implements LogoutSuccessHandler{
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        logger.info("authentication="+authentication +"      退出成功");
+        logger.info(authentication.getPrincipal() +"   退出成功");
         ResponseEntity<BlogResponseResult> responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new BlogResponseResult(200, "注销成功~"));
         response.setContentType("application/json;charset=UTF-8");

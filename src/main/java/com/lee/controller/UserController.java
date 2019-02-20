@@ -1,12 +1,10 @@
 package com.lee.controller;
 
+import com.lee.enums.OperationEnum;
 import com.lee.pojo.Category;
 import com.lee.pojo.Follower;
 import com.lee.pojo.User;
-import com.lee.service.BlogService;
-import com.lee.service.CategoryService;
-import com.lee.service.FollowerService;
-import com.lee.service.UserService;
+import com.lee.service.*;
 import com.lee.vo.BlogResponseResult;
 import com.lee.vo.BlogVo;
 import io.swagger.annotations.Api;
@@ -32,7 +30,8 @@ public class UserController {
     private CategoryService categoryService;
     @Autowired
     private FollowerService followerService;
-
+    @Autowired
+    private NotifyService notifyService;
 
     /**
      * 查询用户信息
@@ -105,7 +104,10 @@ public class UserController {
     @ApiOperation(value="关注用户")
     @PostMapping("/follow")
     public ResponseEntity userFollowers(Long userId,Long followerId){
+        //插入follow表
         followerService.followerUser(userId, followerId);
+        //插入notify表
+        notifyService.saveNotify(followerId,userId, OperationEnum.FOLLOW.getOperationId());
         return ResponseEntity.ok(new BlogResponseResult(200,"关注成功~"));
     }
 

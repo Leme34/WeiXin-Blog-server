@@ -29,7 +29,7 @@ public class MarkController {
     @PreAuthorize("authentication.name.equals(#username)")
     @ApiOperation(value = "收藏博客")
     @PostMapping("/blog")
-    public ResponseEntity voteBlog(Long userId, Long blogId, String username) {
+    public ResponseEntity markBlog(Long userId, Long blogId, String username) {
         markService.markBlog(userId, blogId);
         blogService.increaseMarkSize(blogId);
         return ResponseEntity.ok(new BlogResponseResult(200, "收藏成功"));
@@ -42,7 +42,7 @@ public class MarkController {
     @PreAuthorize("authentication.name.equals(#username)")
     @ApiOperation(value = "取消收藏博客")
     @DeleteMapping("/blog")
-    public ResponseEntity cancelVoteBlog(Long userId, Long blogId, String username) {
+    public ResponseEntity cancelMarkBlog(Long userId, Long blogId, String username) {
         markService.cancelMarkBlog(userId, blogId);
         blogService.decreaseMarkSize(blogId);
         return ResponseEntity.ok(new BlogResponseResult(200, "取消收藏成功"));
