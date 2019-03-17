@@ -70,7 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()   //基于 Form 表单登录验证
 //                .defaultSuccessUrl("",true)  //认证成功后总是跳转此url
-//                .loginPage("/static/login-test.html")  //自定义登录页面
+                .loginPage("/toLogin")  //自定义登录页面
+
                 .loginProcessingUrl("/doLogin")  //自定义登录页面中提交表单的action (form内容会给UsernamePasswordAuthenticationFilter认证)
                 .successHandler(blogAuthenticationSuccessHandler)  //认证成功后使用注入的自定义SavedRequestAwareAuthenticationSuccessHandler的子类处理
 //                .failureUrl("/login-error") // 认证失败跳转的页面,会交给failureHandler处理
@@ -114,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(xxxFiler, UsernamePasswordAuthenticationFilter.class)   //把此过滤器加到UsernamePasswordAuthenticationFilter之前
                 .authorizeRequests()
                 .antMatchers("/doLogin","/blog/list", "/session/invalid","/register").permitAll() // 都可以访问
-                .antMatchers("/users/**").hasAnyRole("USER","USER");  //需要角色才能访问,框架会转换成ROLE_USER和ROLE_ADMIN进行验证
+                .antMatchers("/users/**").hasAnyRole("ADMIN","USER");  //需要角色才能访问,框架会转换成ROLE_USER和ROLE_ADMIN进行验证
 //                .antMatchers(HttpMethod.POST,"/users/**").hasAnyRole("USER","ADMIN")  //POST请求需要角色才能访问
 //                .anyRequest().authenticated()  //剩下没有配置的url都需要登录认证才能访问
 

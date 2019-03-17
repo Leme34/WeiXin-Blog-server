@@ -29,7 +29,7 @@ public class CommentController {
     /**
      * 创建评论
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')") //只有这些角色才能评论
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')") //只有这些角色才能评论
     @ApiOperation(value = "添加此博客的评论", notes = "提交评论")
     @PostMapping
     public ResponseEntity saveComment(Comment comment) {

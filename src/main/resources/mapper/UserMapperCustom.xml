@@ -11,6 +11,7 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="bg_img" jdbcType="VARCHAR" property="bgImg" />
         <!--关联查询字段-->
         <result column="role" jdbcType="VARCHAR" property="role"></result>
         <result column="fans_counts" jdbcType="INTEGER" property="fansCounts"></result>

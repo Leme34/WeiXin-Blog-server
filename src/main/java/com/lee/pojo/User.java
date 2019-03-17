@@ -32,6 +32,9 @@ public class User implements UserDetails {
 
     private String username;
 
+    @Column(name = "bg_img")
+    private String bgImg;
+
     //关联查出的角色
     @Transient
     private String role;
@@ -46,7 +49,7 @@ public class User implements UserDetails {
         // 返回<SimpleGrantedAuthority>
         List<SimpleGrantedAuthority> simpleAuthorities = new ArrayList<>();
         simpleAuthorities.add(new SimpleGrantedAuthority(role));
-//        System.out.println("取得此用户权限："+simpleAuthorities);
+        System.out.println("取得此用户权限："+simpleAuthorities);
         return simpleAuthorities;
     }
 

@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+/**
+ * 实现UserDetailsService的loadUserByUsername接口，为认证用户提供用户信息（密码）
+ */
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 

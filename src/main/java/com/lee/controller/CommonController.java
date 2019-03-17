@@ -8,10 +8,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,23 @@ public class CommonController {
     private MailServiceImpl mailService;
     @Autowired
     private UserService userService;
+
+    /**
+     * 若没有登录security默认跳转此处，前端判断401并跳转登录页
+     */
+    @RequestMapping("/toLogin")
+    public ResponseEntity toLogin() {
+        return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body(null);
+    }
+
+    /**
+     * 验证是否已登录
+     */
+    @RequestMapping("/validLogin")
+    public ResponseEntity validLogin() {
+        boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        return isAuthenticated ? ResponseEntity.ok(null) : ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body(null);
+    }
 
     @ApiOperation(value = "用户注册", notes = "用户注册")
     @PostMapping("/register")
